@@ -6,6 +6,7 @@
 
   :dependencies [[org.clojure/clojure "1.8.0-RC5"]
                  [org.clojure/clojurescript "1.7.228" :scope "provided"]
+                 [datascript "0.13.1"]
                  [ring "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [bk/ring-gzip "0.1.1"]
