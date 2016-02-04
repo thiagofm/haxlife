@@ -4,6 +4,10 @@
 
 (defmulti read om/dispatch)
 
+(defmethod read :game/tutorial
+  [{:keys [state query]} _ _]
+  {:value (d/q '[:find ?e . :where [_ :game/tutorial ?e]] (d/db state))})
+
 (defmethod read :app/counter
   [{:keys [state query]} _ _]
   {:value (d/q '[:find [(pull ?e ?selector) ...]

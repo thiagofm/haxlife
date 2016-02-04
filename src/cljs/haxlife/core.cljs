@@ -1,7 +1,8 @@
 (ns haxlife.core
   (:require [goog.dom :as gdom]
-            [om.next :as om :refer-macros [defui]]
+            [om.next :as om]
             [haxlife.components.counter :as counter]
+            [haxlife.components.window :as window]
             [haxlife.data.db :as db]
             [haxlife.data.parser :as data-parser]))
 
@@ -13,4 +14,4 @@
 
 
 (om/add-root! reconciler
-  counter/Counter (gdom/getElement "app"))
+  window/GameWindow (gdom/getElement "app"))
