@@ -12,9 +12,18 @@
             (dom/div #js {:onClick (fn [e] (om/transact! this `[(~'quit-tutorial {:db/id ~id}) :game/tutorial]))}
                      (dom/p nil "Welcome...")))))
 
-(def tutorial (om/factory Tutorial))
+(def tutorial-comp (om/factory Tutorial))
 
 (defui GameWindow
+  static om/IQuery
+  (query [_])
+  Object
+  (render [this]
+          (dom/p nil "hello world")))
+
+(def game-window-comp (om/factory GameWindow))
+
+(defui Window
   static om/IQuery
   (query [this]
          [:game/tutorial])
@@ -23,4 +32,6 @@
           (let [[id game-tutorial] (first (:game/tutorial (om/props this)))]
             (.log js/console game-tutorial)
             (dom/div nil
-                      (when game-tutorial (tutorial id))))))
+                     (if game-tutorial
+                       (tutorial-comp id)
+                       (game-window-comp))))))

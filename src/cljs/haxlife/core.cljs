@@ -14,4 +14,4 @@
 
 
 (om/add-root! reconciler
-  window/GameWindow (gdom/getElement "app"))
+  window/Window (gdom/getElement "app"))
