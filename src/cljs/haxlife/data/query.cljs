@@ -30,12 +30,15 @@
 
 (defmethod mutate 'total-next-second
   [{:keys [state]} _ entity]
-  (let [per-second 1]
-    {:action (fn []
-               (d/transact! state
-                                 [(update-in state
-                                             [:lambdas/total]
-                                             (+ (lambda-coins/next-second per-second)))]))}))
+  {
+   :action
+   (fn []
+     (let [[id total] (first (d/q '[:find ?id ?e :where [?id :lambdas/total ?e]] (d/db state)))]
+       (.log js/console (pr-str "hello"))
+       (.log js/console (pr-str total))
+       (.log js/console (pr-str state))
+       (d/transact! state [{:db/id id :lambdas/total (+ total 1)}])))})
+
 
 
 (defmethod mutate 'quit-tutorial
