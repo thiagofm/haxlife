@@ -7,7 +7,6 @@
 
 (defmethod read :lambdas/total
   [{:keys [state query]} _ _]
-  (.log js/console (pr-str "query done"))
   {:value (d/q '[:find ?id ?e
                  :where [?id :lambdas/total ?e]]
                (d/db state) query)})
@@ -33,10 +32,6 @@
   [{:keys [state]} _ entity]
   (let [per-second 1]
     {:action (fn []
-               (.log js/console "Current state:")
-               (.log js/console (pr-str state))
-               (.log js/console "Current entity:")
-               (.log js/console (pr-str entity))
                (d/transact! state
                                  [(update-in state
                                              [:lambdas/total]

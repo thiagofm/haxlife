@@ -6,14 +6,12 @@
 (defui Player
   static om/IQuery
   (query [this]
-         [:game/tutorial])
+         [:lambdas/total])
   Object
   (render [this]
-          (.log js/console "bug 123")
-          (.log js/console (pr-str (om/props this)))
-          (let [[id game-tutorial] (first (:game/tutorial (om/props this)))]
+          (let [[id total] (first (:lambdas/total (om/props this)))]
             (dom/div nil
-                     game-tutorial))))
+                     total))))
 
 ;; (defui Player
 ;;   static om/IQuery

@@ -9,7 +9,7 @@
   Object
   (render [this]
           (dom/div nil "GameTile"
-          (player/player-comp)
+          (player/player-comp (om/props this))
           (code/code-comp))))
 
 (def game-tile-comp (om/factory GameTile))
