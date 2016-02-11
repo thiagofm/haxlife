@@ -30,7 +30,6 @@
   Object
   (render [this]
           (let [[id game-tutorial] (first (:game/tutorial (om/props this)))]
-            (.log js/console game-tutorial)
             (dom/div nil
                      (if game-tutorial
                        (tutorial-comp id)
