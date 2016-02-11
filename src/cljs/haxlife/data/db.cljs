@@ -8,8 +8,5 @@
 ; Starting state
 (d/transact! conn
              [{:db/id -1
-               :game/tutorial true
-               :x 11
-               :app/title "Hello, DataScript!"
-               :app/count 0}])
+               :game/tutorial true}])
 
