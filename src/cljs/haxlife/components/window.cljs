@@ -33,6 +33,7 @@
          [:game/tutorial])
   Object
   (render [this]
+          (.log js/console (pr-str (om/props this)))
           (let [[id game-tutorial] (first (:game/tutorial (om/props this)))]
             (dom/div nil
                      (if game-tutorial

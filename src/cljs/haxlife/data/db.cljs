@@ -3,7 +3,12 @@
 
 (def conn (d/create-conn {}))
 
-(def x 1)
+(defn lambdas-setup [per-second per-character]
+  (d/transact! conn
+               [{:db/id -1
+                 :lambdas/total 0
+                 :lambdas/per-second per-second
+                 :lambdas/per-character per-character}]))
 
 ; Starting state
 (d/transact! conn
