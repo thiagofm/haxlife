@@ -1,7 +1,9 @@
 (ns haxlife.components.window
   (:require [om.next :as om :refer-macros [defui]]
             [om.dom :as dom]
-            [haxlife.data.query :as query]))
+            [haxlife.data.query :as query]
+            [haxlife.components.action-tile :as action-tile]
+            [haxlife.components.game-tile :as game-tile]))
 
 (defui Tutorial
   static om/IQuery
@@ -19,7 +21,9 @@
   (query [_])
   Object
   (render [this]
-          (dom/p nil "hello world")))
+          (dom/div nil
+                   (game-tile/game-tile-comp)
+                   (action-tile/action-tile-comp))))
 
 (def game-window-comp (om/factory GameWindow))
 
