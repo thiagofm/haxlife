@@ -19,7 +19,7 @@
 
 (defui GameWindow
   static om/IQuery
-  (query [_])
+  (query [this])
   Object
   (render [this]
           (dom/div nil

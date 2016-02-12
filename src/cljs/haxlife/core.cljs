@@ -13,5 +13,7 @@
      :parser (om/parser {:read query/read :mutate query/mutate})}))
 
 
-(om/add-root! reconciler
-  window/Window (gdom/getElement "app"))
+(om/add-root! reconciler window/Window (gdom/getElement "app"))
+
+; (js/setInterval (fn[] (om/transact! reconciler `[(~'total-next-second)])) 1000)
+
