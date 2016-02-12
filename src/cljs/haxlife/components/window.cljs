@@ -19,8 +19,12 @@
 
 (defui GameWindow
   static om/IQuery
-  (query [this])
+  (query [_])
+
   Object
+  (componentWillMount [this]
+                      (js/setInterval (fn[] (om/transact! this `[(~'total-next-second)])) 1000))
+
   (render [this]
           (dom/div nil
                    (game-tile/game-tile-comp (om/props this))
