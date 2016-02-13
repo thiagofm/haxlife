@@ -10,9 +10,15 @@
   (js/clearInterval interval-id))
 
 (defui Player
+  static om/IQueryParams
+  (params [this]
+          {:keys [:lambdas/total :lambdas/interval-id :lambdas/per-second]})
+
   static om/IQuery
   (query [this]
-         [:lambdas/total :lambdas/interval-id])
+         '[:lambdas/total
+          :lambdas/interval-id
+          (:values {:keys ?keys})])
 
   Object
   ; Sets a interval where the player total will have its lambdas per second applied
@@ -26,7 +32,11 @@
       (clear-interval interval-id)))
 
   (render [this]
-          (let [[id total] (first (:lambdas/total (om/props this)))]
-            (dom/div nil total))))
+          (let [[_ total] (first (:lambdas/total (om/props this)))
+                per-second (:lambdas/per-second (:values (om/props this)))]
+            (.log js/console (pr-str (om/props this)))
+            (dom/div nil
+                     (dom/p nil (str "Total λ: " total))
+                     (dom/p nil (str "λ/sec: " per-second))))))
 
 (def player-comp (om/factory Player))

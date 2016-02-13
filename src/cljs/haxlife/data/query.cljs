@@ -6,6 +6,15 @@
 
 (defmulti read om/dispatch)
 
+(defmethod read :values
+  [{:keys [state query]} key params]
+  {:value
+   (let [keys (:keys params)]
+     (into {} (d/q '[:find ?c ?e
+            :in $ [?c ...]
+            :where [_ ?c ?e]]
+          (d/db state) keys)))})
+
 (defmethod read :lambdas/total
   [{:keys [state query]} _ _]
   {:value (d/q '[:find ?id ?e
@@ -17,11 +26,6 @@
   {:value (d/q '[:find ?interval-id
                  :where [_ :lambdas/interval-id ?interval-id]]
                (d/db state) query)})
-;;;;;;
-
-;(d/q '[:find ?id ?e
-;       :where [?id :lambdas/total ?e]]
-;     (d/db conn) query)
 
 (defmethod read :game/tutorial
   [{:keys [state query]} _ _]
@@ -52,15 +56,11 @@
      (let [[id total] (first (d/q '[:find ?id ?e :where [?id :lambdas/total ?e]] (d/db state)))
            per-second (ffirst (d/q '[:find ?e :where [_ :lambdas/per-second ?e]] (d/db state)))
            next-second-total (lambda-coins/next-second per-second)]
-       (d/transact! state [{:db/id id :lambdas/total (+ total next-second-total)}])))})
-
-
-; (d/transact! conn [{:db/id 2 :lambdas/per-second 100}])
+       (d/transact! state [{:db/id id :lambdas/total (+ total next-second-total)}] :values)))})
 
 (defmethod mutate 'quit-tutorial
   [{:keys [state]} _ entity]
   (let [id (:db/id entity)]
-    ;TODO: refactor to merge with hash :db/id
     {:value {:keys [:game/tutorial]}
      :action (fn []
                (d/transact! state [{:db/id id :game/tutorial false}]))}))
