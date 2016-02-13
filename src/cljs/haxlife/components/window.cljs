@@ -33,7 +33,8 @@
   static om/IQuery
   (query [this]
          [:game/tutorial
-          (first (om/get-query player/Player))])
+          (first (om/get-query player/Player))
+          (second (om/get-query player/Player))])
 
   Object
   (render [this]

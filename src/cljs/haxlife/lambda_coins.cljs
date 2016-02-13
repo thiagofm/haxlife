@@ -8,7 +8,5 @@
 (db/lambdas-setup base-lambdas-per-second base-lambdas-per-character)
 
 (defn next-second [per-second]
-  (.log js/console "NEXT SECOND PARAM:")
-  (.log js/console per-second)
   ; add formula that computes addons
   per-second)

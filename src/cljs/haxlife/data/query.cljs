@@ -12,6 +12,13 @@
                  :where [?id :lambdas/total ?e]]
                (d/db state) query)})
 
+(defmethod read :lambdas/interval-id
+  [{:keys [state query]} _ _]
+  {:value (d/q '[:find ?interval-id
+                 :where [_ :lambdas/interval-id ?interval-id]]
+               (d/db state) query)})
+;;;;;;
+
 ;(d/q '[:find ?id ?e
 ;       :where [?id :lambdas/total ?e]]
 ;     (d/db conn) query)
@@ -29,6 +36,15 @@
 
 (defmulti mutate om/dispatch)
 
+(defmethod mutate 'set-interval-id
+  [{:keys [state]} _ entity]
+  {:action
+   (fn[]
+     (let [id (ffirst (d/q '[:find ?id :where [?id :lambdas/interval-id _]]
+                           (d/db state)))
+           interval-id (:interval-id entity)]
+       (d/transact! state [{:db/id id :lambdas/interval-id interval-id}])))})
+
 (defmethod mutate 'total-next-second
   [{:keys [state]} _ entity]
   {:action
@@ -36,9 +52,6 @@
      (let [[id total] (first (d/q '[:find ?id ?e :where [?id :lambdas/total ?e]] (d/db state)))
            per-second (ffirst (d/q '[:find ?e :where [_ :lambdas/per-second ?e]] (d/db state)))
            next-second-total (lambda-coins/next-second per-second)]
-
-
-
        (d/transact! state [{:db/id id :lambdas/total (+ total next-second-total)}])))})
 
 
