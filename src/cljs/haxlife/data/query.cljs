@@ -1,6 +1,7 @@
 (ns haxlife.data.query
   (:require [datascript.core :as d]
             [om.next :as om]
+
             [haxlife.lambda-coins :as lambda-coins]))
 
 (defmulti read om/dispatch)
@@ -30,8 +31,7 @@
 
 (defmethod mutate 'total-next-second
   [{:keys [state]} _ entity]
-  {
-   :action
+  {:action
    (fn []
      (let [[id total] (first (d/q '[:find ?id ?e :where [?id :lambdas/total ?e]] (d/db state)))]
        (d/transact! state [{:db/id id :lambdas/total (+ total 1)}])))})

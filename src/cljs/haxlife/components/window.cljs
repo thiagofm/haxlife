@@ -19,12 +19,9 @@
 
 (defui GameWindow
   static om/IQuery
-  (query [_])
+  (query [this])
 
   Object
-  (componentWillMount [this]
-                      (js/setInterval (fn[] (om/transact! this `[(~'total-next-second)])) 1000))
-
   (render [this]
           (dom/div nil
                    (game-tile/game-tile-comp (om/props this))
@@ -35,7 +32,8 @@
 (defui Window
   static om/IQuery
   (query [this]
-         [:game/tutorial (first (om/get-query player/Player))])
+         [:game/tutorial
+          (first (om/get-query player/Player))])
   Object
   (render [this]
           (let [[id game-tutorial] (first (:game/tutorial (om/props this)))]
