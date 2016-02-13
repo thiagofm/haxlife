@@ -34,6 +34,7 @@
   (query [this]
          [:game/tutorial
           (first (om/get-query player/Player))])
+
   Object
   (render [this]
           (let [[id game-tutorial] (first (:game/tutorial (om/props this)))]

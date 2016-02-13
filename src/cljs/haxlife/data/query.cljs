@@ -33,10 +33,16 @@
   [{:keys [state]} _ entity]
   {:action
    (fn []
-     (let [[id total] (first (d/q '[:find ?id ?e :where [?id :lambdas/total ?e]] (d/db state)))]
-       (d/transact! state [{:db/id id :lambdas/total (+ total 1)}])))})
+     (let [[id total] (first (d/q '[:find ?id ?e :where [?id :lambdas/total ?e]] (d/db state)))
+           per-second (ffirst (d/q '[:find ?e :where [_ :lambdas/per-second ?e]] (d/db state)))
+           next-second-total (lambda-coins/next-second per-second)]
 
 
+
+       (d/transact! state [{:db/id id :lambdas/total (+ total next-second-total)}])))})
+
+
+; (d/transact! conn [{:db/id 2 :lambdas/per-second 100}])
 
 (defmethod mutate 'quit-tutorial
   [{:keys [state]} _ entity]

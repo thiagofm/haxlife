@@ -16,8 +16,7 @@
 
   (render [this]
           (let [[id total] (first (:lambdas/total (om/props this)))]
-            (dom/div nil
-                     total))))
+            (dom/div nil total))))
 
 ;; (defui Player
 ;;   static om/IQuery
