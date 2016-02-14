@@ -5,8 +5,7 @@
 
 (defui Code
   Object
-  (render [this]
-          (dom/div nil "Code")))
+  (render [this] (dom/div nil "Code")))
 
 (def code-comp (om/factory Code))
 

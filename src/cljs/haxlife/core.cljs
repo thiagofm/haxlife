@@ -14,6 +14,3 @@
 
 
 (om/add-root! reconciler window/Window (gdom/getElement "app"))
-
-; (js/setInterval (fn[] (om/transact! reconciler `[(~'total-next-second)])) 1000)
-

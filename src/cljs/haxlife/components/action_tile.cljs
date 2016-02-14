@@ -7,8 +7,6 @@
 (defui ActionTile
   Object
   (render [this]
-          (dom/div nil
-                   "ActionTile"
-                   (tab/tab-comp))))
+          (dom/div nil "ActionTile" (tab/tab-comp))))
 
 (def action-tile-comp (om/factory ActionTile))
