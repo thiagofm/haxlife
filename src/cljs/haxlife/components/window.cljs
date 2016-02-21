@@ -2,6 +2,7 @@
   (:require [om.next :as om :refer-macros [defui]]
             [om.dom :as dom]
             [haxlife.data.query :as query]
+            [haxlife.components.tab :as tab]
             [haxlife.components.action-tile :as action-tile]
             [haxlife.components.game-tile :as game-tile]
             [haxlife.components.player :as player]))
@@ -25,7 +26,7 @@
   (render [this]
           (dom/div nil
                    (game-tile/game-tile-comp (om/props this))
-                   (action-tile/action-tile-comp))))
+                   (action-tile/action-tile-comp (om/props this)))))
 
 (def game-window-comp (om/factory GameWindow))
 
@@ -33,6 +34,7 @@
   static om/IQuery
   (query [this]
          [:game/tutorial
+          (first (om/get-query tab/Tab))
           (first (om/get-query player/Player))
           (second (om/get-query player/Player))
           (nth (om/get-query player/Player) 2)])

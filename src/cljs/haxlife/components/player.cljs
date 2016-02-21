@@ -34,7 +34,6 @@
   (render [this]
           (let [[_ total] (first (:lambdas/total (om/props this)))
                 per-second (:lambdas/per-second (:values (om/props this)))]
-            (.log js/console (pr-str (om/props this)))
             (dom/div nil
                      (dom/p nil (str "Total λ: " total))
                      (dom/p nil (str "λ/sec: " per-second))))))

@@ -14,6 +14,7 @@
                  [compojure "1.4.0"]
                  [org.omcljs/om "1.0.0-alpha28"]
                  [environ "1.0.1"]
+                 [camel-snake-kebab "0.3.2"]
                  [http-kit "2.1.19"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]

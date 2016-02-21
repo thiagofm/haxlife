@@ -13,5 +13,6 @@
 ; Starting state
 (d/transact! conn
              [{:db/id -1
+               :game/active-tab-component "store"
                :game/tutorial true}])
 

@@ -15,6 +15,12 @@
             :where [_ ?c ?e]]
           (d/db state) keys)))})
 
+(defmethod read :game/active-tab-component
+  [{:keys [state query]} _ _]
+  {:value (d/q '[:find ?e .
+                 :where [_ :game/active-tab-component ?e]]
+               (d/db state) query)})
+
 (defmethod read :lambdas/total
   [{:keys [state query]} _ _]
   {:value (d/q '[:find ?id ?e
@@ -48,6 +54,15 @@
                            (d/db state)))
            interval-id (:interval-id entity)]
        (d/transact! state [{:db/id id :lambdas/interval-id interval-id}])))})
+
+(defmethod mutate 'set-active-tab-component
+  [{:keys [state]} _ entity]
+  {:action
+   (fn[]
+     (let [id (ffirst (d/q '[:find ?id :where [?id :game/active-tab-component _]]
+                           (d/db state)))
+           active-tab-comp (:active-tab-comp entity)]
+       (d/transact! state [{:db/id id :game/active-tab-component active-tab-comp}])))})
 
 (defmethod mutate 'total-next-second
   [{:keys [state]} _ entity]
