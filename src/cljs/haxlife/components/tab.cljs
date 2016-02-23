@@ -10,52 +10,44 @@
           (dom/div nil "StoreTab")))
 
 
-(defui StoreTabLink
-  static om/IQuery
-  (query [_])
-  Object
-  (render [this]
-          (dom/li
-           #js {:onClick (fn [e]
-                       (om/transact! this `[(~'set-active-tab-component {:active-tab-comp "store"}) :game/active-tab-component]))}
-           nil
-           "Store")))
-
 (def store-tab-comp (om/factory StoreTab))
-(def store-tab-link-comp (om/factory StoreTabLink))
 
 (defui SkilltreeTab
   Object
   (render [this]
           (dom/div nil "SkilltreeTab")))
 
-(defui SkilltreeTabLink
+(def skilltree-tab-comp (om/factory SkilltreeTab))
+
+(defui TabLink
   static om/IQuery
-  (query [_])
+  (query [this]
+         [:game/active-tab-component])
+
   Object
   (render [this]
-          (dom/li
-           #js {:onClick (fn [e]
-                           (om/transact! this `[(~'set-active-tab-component {:active-tab-comp "skilltree"}) :game/active-tab-component]))}
-           nil
-           "Skilltree")))
+    (let [{:keys [name]} (om/get-computed this)]
+      (dom/li
+       #js {:onClick (fn [e]
+                       (om/transact! (om/get-reconciler this) `[(~'set-active-tab-component {:active-tab-comp ~name}) :game/active-tab-component]))}
+       name))))
 
-(def skilltree-tab-comp (om/factory SkilltreeTab))
-(def skilltree-tab-link-comp (om/factory SkilltreeTabLink))
+(def tab-link-comp (om/factory TabLink {:keyfn (fn [props] (:name (om/get-computed props)))}))
 
 (defui Tab
   static om/IQuery
   (query [this]
          [:game/active-tab-component])
+
   Object
   (render [this]
           (let [active-tab-component (:game/active-tab-component (om/props this))]
             (dom/div nil
                      (dom/ul nil
-                             (store-tab-link-comp)
-                             (skilltree-tab-link-comp))
+                             (tab-link-comp (om/computed (om/props this) {:name "Store"}))
+                             (tab-link-comp (om/computed (om/props this) {:name "Skilltree"})))
                      (case active-tab-component
-                       "store" (store-tab-comp (om/props this))
-                       "skilltree" (skilltree-tab-comp (om/props this)))))))
+                       "Store" (store-tab-comp (om/props this))
+                       "Skilltree" (skilltree-tab-comp (om/props this)))))))
 
 (def tab-comp (om/factory Tab))

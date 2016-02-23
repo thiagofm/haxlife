@@ -35,6 +35,7 @@
   (query [this]
          [:game/tutorial
           (first (om/get-query tab/Tab))
+          (first (om/get-query tab/TabLink))
           (first (om/get-query player/Player))
           (second (om/get-query player/Player))
           (nth (om/get-query player/Player) 2)])
