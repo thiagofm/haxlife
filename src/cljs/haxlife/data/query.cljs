@@ -21,6 +21,12 @@
                  :where [_ :game/active-tab-component ?e]]
                (d/db state) query)})
 
+(defmethod read :lambdas/per-second
+  [{:keys [state query]} _ _]
+  {:value (d/q '[:find ?e .
+                 :where [_ :lambdas/per-second ?e]]
+               (d/db state) query)})
+
 (defmethod read :lambdas/total
   [{:keys [state query]} _ _]
   {:value (d/q '[:find ?id ?e
@@ -66,12 +72,12 @@
 
 (defmethod mutate 'total-next-second
   [{:keys [state]} _ entity]
-  {:action
+  {:value {:keys [:lambdas/total]}
+   :action
    (fn []
-     (let [[id total] (first (d/q '[:find ?id ?e :where [?id :lambdas/total ?e]] (d/db state)))
-           per-second (ffirst (d/q '[:find ?e :where [_ :lambdas/per-second ?e]] (d/db state)))
+     (let [{:keys [total id per-second]} entity
            next-second-total (lambda-coins/next-second per-second)]
-       (d/transact! state [{:db/id id :lambdas/total (+ total next-second-total)}] :values)))})
+       (d/transact! state [{:db/id id :lambdas/total (+ total next-second-total)}] :lambdas/total)))})
 
 (defmethod mutate 'quit-tutorial
   [{:keys [state]} _ entity]
