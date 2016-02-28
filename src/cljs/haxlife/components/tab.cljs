@@ -2,6 +2,7 @@
   (:require [om.next :as om :refer-macros [defui]]
             [om.dom :as dom]
             [haxlife.utils :as utils]
+            [haxlife.components.tab.skilltree :as skilltree]
             [haxlife.data.query :as query]))
 
 (defui StoreTab
@@ -9,15 +10,7 @@
   (render [this]
           (dom/div nil "StoreTab")))
 
-
 (def store-tab-comp (om/factory StoreTab))
-
-(defui SkilltreeTab
-  Object
-  (render [this]
-          (dom/div nil "SkilltreeTab")))
-
-(def skilltree-tab-comp (om/factory SkilltreeTab))
 
 (defui TabLink
   static om/IQuery
@@ -48,6 +41,6 @@
                              (tab-link-comp (om/computed (om/props this) {:name "Skilltree"})))
                      (case active-tab-component
                        "Store" (store-tab-comp (om/props this))
-                       "Skilltree" (skilltree-tab-comp (om/props this)))))))
+                       "Skilltree" (skilltree/skilltree-comp (om/props this)))))))
 
 (def tab-comp (om/factory Tab))
