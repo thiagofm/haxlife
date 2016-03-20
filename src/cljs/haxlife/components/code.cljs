@@ -3,9 +3,14 @@
             [om.dom :as dom]))
 
 (defui ^:once Code
+  static om/IQuery
+  (query [this]
+         [:code])
+
   Object
   (render [this]
-          (dom/div nil "Code")))
+    (let [{:keys [code]} (om/props this)]
+      (dom/div #js {:id "code"} code))))
 
 (def code-comp (om/factory Code))
 

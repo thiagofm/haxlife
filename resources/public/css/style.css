@@ -2,11 +2,23 @@ body {
     background: #000;
     color: #fff;
     font-family: "Lucida Console", Monaco, monospace;
-    line-height: 1.5em;
+    font-size: 16px;
 }
 
 h1 {
     text-decoration: underline;
+}
+
+#game-window {
+    background: #fff;
+    color: #000;
+}
+
+
+#code {
+    height: 600px; 
+    background: #a1b2c3;
+    width: 800px;
 }
 
 
