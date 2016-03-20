@@ -5,11 +5,12 @@
 (defui ^:once Code
   static om/IQuery
   (query [this]
-         [:code])
+         '[(:code {:query "brasil"})])
 
   Object
   (render [this]
     (let [{:keys [code]} (om/props this)]
+      (.log js/console (pr-str code))
       (dom/div #js {:id "code"} code))))
 
 (def code-comp (om/factory Code))
