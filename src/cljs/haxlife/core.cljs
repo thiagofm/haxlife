@@ -1,18 +1,15 @@
 (ns haxlife.core
-  (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]))
+  (:require [om.next :as om :include-macros true]
+            [haxlife.components.window :as window]
+            [goog.dom :as gdom]
+            [haxlife.query :as query]))
 
 (enable-console-print!)
 
-(defonce app-state (atom {:text "Hello Chestnut!"}))
+(def app-state (atom))
 
-(defn root-component [app owner]
-  (reify
-    om/IRender
-    (render [_]
-      (dom/div nil (dom/h1 nil (:text app))))))
+(def reconciler
+  (om/reconciler {:state app-state
+                  :parser (om/parser {:read query/read :mutate query/mutate})}))
 
-(om/root
- root-component
- app-state
- {:target (js/document.getElementById "app")})
+(om/add-root! reconciler window/Window (gdom/getElement "app"))
