@@ -5,7 +5,8 @@
             [haxlife.components.tab :as tab]
             [haxlife.components.action-tile :as action-tile]
             [haxlife.components.game-tile :as game-tile]
-            [haxlife.components.player :as player]))
+            [haxlife.components.player :as player]
+            [haxlife.components.code :as code]))
 
 (defui Tutorial
   static om/IQuery

@@ -10,6 +10,6 @@
   (render [this]
           (dom/div nil "GameTile"
           (player/player-comp (om/props this))
-          (code/code-comp))))
+          (code/code-comp (om/computed (om/props this) {:language "haskell"})))))
 
 (def game-tile-comp (om/factory GameTile))

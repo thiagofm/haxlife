@@ -4,8 +4,19 @@
             [haxlife.data.query :as query]))
 
 (defui Code
+  static om/IQueryParams
+  (params [this])
+
+  static om/IQuery
+  (query [this])
+
   Object
-  (render [this] (dom/div nil "Code")))
+  (render [this]
+          (let [language (:language (om/get-computed this))]
+            ; TODO: refactor this when remotes + datascript start to work well together
+            (om/transact! (om/get-reconciler this) `[(~'set-github-file {:language ~language})])
+
+            (dom/div nil "hello")))) ;
 
 (def code-comp (om/factory Code))
 

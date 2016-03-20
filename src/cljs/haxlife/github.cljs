@@ -6,16 +6,12 @@
 
 (def github-repositories-url "https://api.github.com/search/repositories")
 
-(defn repositories-res [res]
-  (let [body (:body res)
-        items (:items body)]
-    items))
-
-(defn repositories-req [language]
-  (go (let [response (<! (http/get github-repositories-url
-                                   {:with-credentials? false
-                                    :query-params {"q" (str "language:" language)
-                                                   "sort" "stars"
-                                                   "order" "desc"}}))]
-        (repositories-res response))))
-
+(defn repositories [language repository-response cb]
+  (go
+    (if (nil? repository-response)
+      (let [response (<! (http/get github-repositories-url {:with-credentials? false
+                                                            :query-params {"q" (str "language:" language)
+                                                                           "sort" "stars"
+                                                                           "order" "desc"}}))]
+        (cb (:items (:body response))))
+      (cb repository-response))))

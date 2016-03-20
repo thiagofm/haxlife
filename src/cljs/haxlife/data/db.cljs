@@ -15,4 +15,3 @@
              [{:db/id -1
                :game/active-tab-component "Store"
                :game/tutorial true}])
-

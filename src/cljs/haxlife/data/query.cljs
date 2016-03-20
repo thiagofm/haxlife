@@ -1,7 +1,7 @@
 (ns haxlife.data.query
   (:require [datascript.core :as d]
             [om.next :as om]
-
+            [haxlife.github :as github]
             [haxlife.lambda-coins :as lambda-coins]))
 
 (defmulti read om/dispatch)
@@ -79,3 +79,16 @@
     {:value {:keys [:game/tutorial]}
      :action (fn []
                (d/transact! state [{:db/id id :game/tutorial false}]))}))
+
+(defmethod mutate 'set-github-file
+  [{:keys [state]} _ entity];
+  {:action
+   (let [language "ruby"
+         repositories-key (keyword "github/repositories" language)
+         repository-response (d/q '[:find ?e . :in $ [?c ...] :where [_ ?c ?e]] (d/db state) [repositories-key])]
+     (.log js/console repository-response)
+     (if (nil? repository-response)
+      (github/repositories language
+        (fn [response]
+          (d/transact! state [{:db/id -1 repositories-key response}])))
+      repository-response))})
