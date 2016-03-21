@@ -14,7 +14,7 @@
    {:value (get @state k [])}
    (when-not (or (string/blank? query)
                  (< (count query) 3))
-     {:search ast})))
+     {:code ast})))
 
 (defmulti mutate om/dispatch)
 
